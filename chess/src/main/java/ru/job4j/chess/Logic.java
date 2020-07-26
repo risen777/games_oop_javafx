@@ -16,6 +16,7 @@ import java.util.Optional;
 public class Logic {
     private final Figure[] figures = new Figure[32];
     private int index = 0;
+    private Cell[] steps;
 
     public void add(Figure figure) {
         this.figures[this.index++] = figure;
@@ -25,7 +26,11 @@ public class Logic {
         boolean rst = false;
         int index = this.findBy(source);
         if (index != -1) {
-            Cell[] steps = this.figures[index].way(source, dest);
+            try {
+                steps = this.figures[index].way(source, dest);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
             if (steps.length > 0 && steps[steps.length - 1].equals(dest) && hasWay(steps)) {
                 rst = true;
                 this.figures[index] = this.figures[index].copy(dest);
@@ -37,7 +42,7 @@ public class Logic {
     private boolean hasWay(Cell[] steps) {
         boolean result = true;
         for (int i = 1; i < steps.length; i++) {
-            if (figures[findBy(steps[i])] != null ) {
+            if (figures[findBy(steps[i])] != null) {
                 result = false;
                 break;
             }
