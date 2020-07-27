@@ -28,8 +28,10 @@ public class Logic {
         if (index != -1) {
             try {
                 steps = this.figures[index].way(source, dest);
-            } catch (NullPointerException e) {
-                e.printStackTrace();
+            } catch (IllegalStateException e) {
+                System.out.println("IllegalStateException:  " + e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Exception:  " + e.getMessage());
             }
             if (steps.length > 0 && steps[steps.length - 1].equals(dest) && hasWay(steps)) {
                 rst = true;
